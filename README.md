@@ -47,17 +47,22 @@ Advanced compression middleware for HybridBuffer using [`klauspost/compress`](ht
 ### Basic Usage
 
 ```go
-import "schneider.vip/hybridbuffer/middleware/compression"
+import (
+    "schneider.vip/hybridbuffer"
+    "schneider.vip/hybridbuffer/middleware/compression"
+)
 
 // Zstd compression (recommended)
 buf := hybridbuffer.New(
     hybridbuffer.WithMiddleware(compression.New(compression.Zstd)),
 )
+defer buf.Close()
 
 // S2 compression (fastest)
 buf := hybridbuffer.New(
     hybridbuffer.WithMiddleware(compression.New(compression.S2)),
 )
+defer buf.Close()
 ```
 
 ### With Compression Levels
@@ -70,6 +75,7 @@ buf := hybridbuffer.New(
         compression.WithLevel(compression.Best),
     )),
 )
+defer buf.Close()
 
 // Fastest compression
 buf := hybridbuffer.New(
@@ -78,12 +84,17 @@ buf := hybridbuffer.New(
         compression.WithLevel(compression.Fastest),
     )),
 )
+defer buf.Close()
 ```
 
 ### Combined with Other Middleware
 
 ```go
-import "schneider.vip/hybridbuffer/middleware/encryption"
+import (
+    "schneider.vip/hybridbuffer"
+    "schneider.vip/hybridbuffer/middleware/compression"
+    "schneider.vip/hybridbuffer/middleware/encryption"
+)
 
 // Combine compression and encryption
 buf := hybridbuffer.New(
@@ -92,6 +103,7 @@ buf := hybridbuffer.New(
         encryption.New(),
     ),
 )
+defer buf.Close()
 ```
 
 ## Performance Comparison
@@ -141,6 +153,7 @@ buf := hybridbuffer.New(
         compression.WithLevel(compression.Fastest),
     )),
 )
+defer buf.Close()
 ```
 
 ### Archival Storage
@@ -152,6 +165,7 @@ buf := hybridbuffer.New(
         compression.WithLevel(compression.Best),
     )),
 )
+defer buf.Close()
 ```
 
 ### Web API Response
@@ -163,6 +177,7 @@ buf := hybridbuffer.New(
         compression.WithLevel(compression.Default),
     )),
 )
+defer buf.Close()
 ```
 
 ## Performance Benefits
